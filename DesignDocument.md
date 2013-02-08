@@ -1,8 +1,7 @@
 # Design Document for PA1
 
 ## Purpose/Overview
-> Give a brief, high-level description of what this piece of software will do. This is pretty much you restating the problem as you understand it.
-
+> This piece of software will emulate a basic social networking platform. It will do this by storing information and ID's for multiple users and keeping track of the connections between different users. Also, it will be able to read GML files to create new users and create GML files from the user information.
 
 ## Requirements
 > What are the functions that this software is supposed to perform?
