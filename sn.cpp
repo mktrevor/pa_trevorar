@@ -7,6 +7,40 @@
 #include "gmlreader.h"
 // Add appropriate headers here
 
+void addUserData(User* user, stringstream &ss) {
+	string datatype, name, newString;
+	int value = 0;
+	ss >> datatype;
+	
+	for(int i = 0; i < 4; i++) {
+		if(datatype == "id") {
+			ss >> value;
+			getline(ss, newString, '\n');
+			user->setId(value);
+		} else if(datatype == "age") {
+			ss >> value;
+			getline(ss, newString, '\n');
+			user->setAge(value);
+		} else if(datatype == "zip") {
+			ss >> value;
+			getline(ss, newString, '\n');
+			user->setZip(value);
+		} else if(datatype == "name") {
+			getline(ss, datatype, '\"');
+			getline(ss, name, '\"');
+			getline(ss, newString, '\n');
+			user->setName(name);
+		}
+	
+		ss.clear();
+		ss.flush();
+	
+		ss << newString;
+		newString = "";
+		ss >> datatype;
+	}
+}
+
 using namespace std;
 
 int main(int argc, char *argv[])
@@ -24,13 +58,10 @@ int main(int argc, char *argv[])
 	GMLReader::read(argv[1], nodes, edges);
 	
 	string s;
-	string infoType;
-	int id = 0;
-	string name1 = "", name2 = "";
-	int zip = 0;
-	int age = 0;
 	
 	for(int i = 0; i < nodes.size(); i++) {
+	
+		User* newUser = new User();
 	
 		s = nodes[i];
 		
@@ -38,9 +69,11 @@ int main(int argc, char *argv[])
 		
 		ss << s;
 		
-		ss >> infoType >> id >> infoType >> name1 >> name2 >> infoType >> age >> infoType >> zip;
+		addUserData(newUser, ss);
 		
-		User* newUser = new User(name1 + " " + name2, age, zip, id);
+		//ss >> infoType >> id >> infoType >> name1 >> name2 >> infoType >> age >> infoType >> zip;
+		
+		//User* newUser = new User(name1 + " " + name2, age, zip, id);
 		
 		userList.push_back(newUser);
 	}
