@@ -5,8 +5,8 @@
 
 
 ## Requirements
-> What are the functions that this software is supposed to perform?
-> Try to phrase them in a clear and concise manner.
+> This software is supposed to read and write gml files, transfer the information into an array of users, each with their own data, and handle the connections between all the different users (edges between nodes).
+
 
 
 ## Classes
