@@ -31,7 +31,7 @@ gml.tab.o: gml.tab.c
 gml.tab.c: gml.y
 	bison -d gml.y
 
-sn.o : user.h mylist.h
+sn.o : user.h mylist.h sn.cpp
 	$(CC) $(CFLAGS) -c sn.cpp
 
 
