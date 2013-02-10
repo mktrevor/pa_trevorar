@@ -2,9 +2,11 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <fstream>
 #include "user.h"
 #include "mylist.h"
 #include "gmlreader.h"
+#include "gmlwriter.h"
 // Add appropriate headers here
 
 void addUserData(User* user, stringstream &ss) {
@@ -78,7 +80,13 @@ int main(int argc, char *argv[])
 		userList.push_back(newUser);
 	}
 	
-	for(int i = 0; i < userList.size(); i++) {
+	for(int i = 0; i < edges.size(); i++) {
+		
+		
+		
+	}
+	
+	/*for(int i = 0; i < userList.size(); i++) {
 		cout << userList.at(i)->getId() << endl;
 	}
 	
@@ -94,13 +102,13 @@ int main(int argc, char *argv[])
 		cout << userList.at(i)->getZip() << endl;
 	}
 	
-	/*for(int i = 0; i < nodes.size(); i++) {
+	for(int i = 0; i < nodes.size(); i++) {
 		cout << nodes[i] << endl;
-	}
+	}*/
 	
 	for(int i = 0; i < edges.size(); i++) {
 		cout << edges[i] << endl;
-	}*/
+	}
 
   return 0;
 }

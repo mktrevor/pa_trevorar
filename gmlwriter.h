@@ -7,16 +7,16 @@
 
 using namespace std;
 
-class GMLWriter() {
+class GMLWriter {
 	private:
 		MyList<User*> userList_;
 	
 	public:
-		User();
-		User(MyList<User*> userList);
-		~User();
+		GMLWriter();
+		GMLWriter(MyList<User*> userList);
+		~GMLWriter();
 		
-		write(MyList<User*>);
-}
+		void write(ofstream of);
+};
 
 #endif
