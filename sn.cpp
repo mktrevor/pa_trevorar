@@ -59,6 +59,8 @@ int main(int argc, char *argv[])
 	
 	GMLReader::read(argv[1], nodes, edges);
 	
+	ofstream outputFile;
+	
 	string s;
 	
 	for(int i = 0; i < nodes.size(); i++) {
@@ -73,18 +75,21 @@ int main(int argc, char *argv[])
 		
 		addUserData(newUser, ss);
 		
-		//ss >> infoType >> id >> infoType >> name1 >> name2 >> infoType >> age >> infoType >> zip;
-		
-		//User* newUser = new User(name1 + " " + name2, age, zip, id);
-		
 		userList.push_back(newUser);
 	}
 	
-	for(int i = 0; i < edges.size(); i++) {
-		
-		
-		
-	}
+	userList.at(0)->friends()->push_back(1);
+	userList.at(1)->friends()->push_back(0);
+	userList.at(0)->friends()->push_back(2);
+	userList.at(2)->friends()->push_back(0);
+	
+	outputFile.open(argv[3]);
+	
+	GMLWriter::write(userList, outputFile);
+	
+	outputFile.close();
+	
+	//The follow lines are for testing purposes.
 	
 	/*for(int i = 0; i < userList.size(); i++) {
 		cout << userList.at(i)->getId() << endl;
@@ -104,11 +109,11 @@ int main(int argc, char *argv[])
 	
 	for(int i = 0; i < nodes.size(); i++) {
 		cout << nodes[i] << endl;
-	}*/
+	}
 	
 	for(int i = 0; i < edges.size(); i++) {
 		cout << edges[i] << endl;
-	}
+	}*/
 
   return 0;
 }
