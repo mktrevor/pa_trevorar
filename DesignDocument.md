@@ -5,9 +5,7 @@
 
 
 ## Requirements
-> This software is supposed to read and write gml files, transfer the information into an array of users, each with their own data, and handle the connections between all the different users (edges between nodes).
-
-
+> This software is supposed to read gml files and transfer their information into a list of users who all have unique attributes. Also, this program must also do the opposite - take a list of users and print all the information out into a properly-formatted gml file. Lastly, this program has to manage all the connections between users (edges connecting nodes).rs, each with their own data, and handle the connections between all the different users (edges between nodes).
 
 ## Classes
 > What classes do you need to create?
