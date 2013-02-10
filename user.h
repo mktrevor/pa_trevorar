@@ -1,6 +1,7 @@
 #ifndef USER_H
 #define USER_H
 #include "mylist.h"
+#include <iostream>
 #include <string>
 
 using namespace std;
