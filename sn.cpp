@@ -24,11 +24,41 @@ int main(int argc, char *argv[])
 	GMLReader::read(argv[1], nodes, edges);
 	
 	string s;
-	stringstream ss;
 	string infoType;
+	int id = 0;
+	string name1 = "", name2 = "";
+	int zip = 0;
+	int age = 0;
 	
 	for(int i = 0; i < nodes.size(); i++) {
+	
 		s = nodes[i];
+		
+		stringstream ss;
+		
+		ss << s;
+		
+		ss >> infoType >> id >> infoType >> name1 >> name2 >> infoType >> age >> infoType >> zip;
+		
+		User* newUser = new User(name1 + " " + name2, age, zip, id);
+		
+		userList.push_back(newUser);
+	}
+	
+	for(int i = 0; i < userList.size(); i++) {
+		cout << userList.at(i)->getId() << endl;
+	}
+	
+	for(int i = 0; i < userList.size(); i++) {
+		cout << userList.at(i)->getName() << endl;
+	}
+	
+	for(int i = 0; i < userList.size(); i++) {
+		cout << userList.at(i)->getAge() << endl;
+	}
+	
+	for(int i = 0; i < userList.size(); i++) {
+		cout << userList.at(i)->getZip() << endl;
 	}
 	
 	/*for(int i = 0; i < nodes.size(); i++) {

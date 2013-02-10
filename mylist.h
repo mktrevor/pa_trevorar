@@ -58,7 +58,7 @@ template <typename T> void MyList<T>::push_back(T item) {
 	}
 	
 	data_[size_] = item;
-	size++;
+	size_++;
 }
 
 template <typename T> T& MyList<T>::at(int loc) {

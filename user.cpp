@@ -8,6 +8,15 @@ User::User() {
 	name_ = "";
 	age_ = 0;
 	zip_ = 0;
+	id_ = 0;
+	friends_ = new MyList<int>;
+};
+
+User::User(string name, int age, int zip, int id) {
+	name_ = name;
+	age_ = age;
+	zip_ = zip;
+	id_ = id;
 	friends_ = new MyList<int>;
 };
 
@@ -34,6 +43,13 @@ int User::getZip() {
 };
 void User::setZip(int zip) {
 	zip_ = zip;
+};
+
+int User::getId() {
+	return id_;
+};
+void User::setId(int id) {
+	id_ = id;
 };
 
 MyList<int>* User::friends() {

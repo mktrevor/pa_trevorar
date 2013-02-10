@@ -9,12 +9,14 @@ using namespace std;
 class User {
 	private:
 	string name_;
+	int id_;
 	int age_;
 	int zip_;
 	MyList<int>* friends_;
 	
 	public:
 	User();
+	User(string name, int age, int zip, int id);
 	~User();
 	
 	string getName();
@@ -25,6 +27,9 @@ class User {
 	
 	int getZip();
 	void setZip(int zip);
+	
+	int getId();
+	void setId(int id);
 	
 	MyList<int>* friends();
 };
