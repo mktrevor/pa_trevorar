@@ -12,10 +12,12 @@
 > + Its purpose is to hold and manage a list of pointers to variables of any kind (templated class).
 > + Its member data include an integer called size to keep track of the list's size, an integer called capacity to determine when the list needs to be allocated more memory, and T* data_ to hold the actual array of data.
 > + Its methods include a constructor and destructor, size() to return the size of the list, push_back(T item) to add an item to the list, at(int loc) to return the value at a certain location, and remove(T val) to remove the first instance of a certain value from the list.
+
 > Second, there is a User class.
 > + Its purpose is to store the information of a single user, include name, zip code, age, id number, and friend list.
 > + Its member data include three integers to store a user's zip code, age, and id number. It also has a string to hold the user's name and an integer list (MyList<int>) to store the user's friends' id numbers.
 > + It has constructors and a destructor, getters and setters for each of the user's attributes (name, id, zip, age), and a function friend() which returns a pointer to the user's friend list.
+
 > What classes do you need to create?
 > + Describe the purpose of each class.
 > + What member data will they have? Why?
