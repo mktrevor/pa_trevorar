@@ -18,14 +18,11 @@
 > + Its member data include three integers to store a user's zip code, age, and id number. It also has a string to hold the user's name and an integer list (MyList<int>) to store the user's friends' id numbers.
 > + It has constructors and a destructor, getters and setters for each of the user's attributes (name, id, zip, age), and a function friend() which returns a pointer to the user's friend list.
 
-> What classes do you need to create?
-> + Describe the purpose of each class.
-> + What member data will they have? Why?
-> + What methods will they have? Why?
-> Make sure you describe each member variable and member function.
-
+> Third, there is a GMLWriter class which has only a single method called write(). This method takes in a list of user pointers and an output file and converts the user information to a gml file.
 
 ## Global Data/Functions
+>
+
 > What global data & functions do you have? Describe any pieces of your program that are not within a class. You don't need to describe every single variable you use, but are there any global variables or functions that are integral to how your program works?
 
 ## High-level Architecture
