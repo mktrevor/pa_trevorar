@@ -70,6 +70,8 @@ void addFriendConnections(MyList<User*> &userList, ifstream &inputFile) {
 	string firstName1, lastName1, firstName2, lastName2;
 	string friend1, friend2;
 	
+	int checker1 = 0, checker2 = 0;
+	
 	char action;
 	
 	while(inputFile.good()) {
@@ -81,31 +83,53 @@ void addFriendConnections(MyList<User*> &userList, ifstream &inputFile) {
 		friend1 = friend1.substr(1, friend1.length() - 2);
 		friend2 = friend2.substr(1, friend2.length() - 2);
 		
-		if(action == 'a') {
-			for(int i = 0; i < userList.size(); i++) {
-				if(userList.at(i)->getName() == friend1) {
-					for(int j = 0; j < userList.size(); j++) {
-						if(userList.at(j)->getName() == friend2) {
-							userList.at(i)->addFriend(userList.at(j)->getId());
-							userList.at(j)->addFriend(userList.at(i)->getId());
+		try {
+			if(action == 'a') {
+				for(int i = 0; i < userList.size(); i++) {
+					if(userList.at(i)->getName() == friend1) {
+						checker1++;
+						for(int j = 0; j < userList.size(); j++) {
+							if(userList.at(j)->getName() == friend2) {
+								checker2++;
+								userList.at(i)->addFriend(userList.at(j)->getId());
+								userList.at(j)->addFriend(userList.at(i)->getId());
+							}
 						}
 					}
 				}
 			}
+			else if(action == 'r') {
+				for(int i = 0; i < userList.size(); i++) {
+					if(userList.at(i)->getName() == friend1) {
+						checker1++;
+						for(int j = 0; j < userList.size(); j++) {
+							if(userList.at(j)->getName() == friend2) {
+								checker2++;
+								userList.at(i)->removeFriend(userList.at(j)->getId());
+								userList.at(j)->removeFriend(userList.at(i)->getId());
+							}
+						}
+					}
+				}
+			}	else {
+				throw exception();
+			}
+		} catch(exception e) {
+			cout << "Missing add/remove command on this line." << endl;
 		}
-		else if(action == 'r') {
-			for(int i = 0; i < userList.size(); i++) {
-				if(userList.at(i)->getName() == friend1) {
-					for(int j = 0; j < userList.size(); j++) {
-						if(userList.at(j)->getName() == friend2) {
-							userList.at(i)->removeFriend(userList.at(j)->getId());
-							userList.at(j)->removeFriend(userList.at(i)->getId());
-						}
-					}
-				}
+		try {
+			if(checker1 == 0) {
+				throw logic_error("User does not exist");
+		}
+		} catch(logic_error le) {
+			cout << le.what() << endl;
+		}
+		try {
+			if(checker2 == 0) {
+			throw logic_error("User does not exist");
 			}
-		}	else {
-			throw logic_error("Missing add/remove command from this line.");
+		} catch(logic_error le) {
+			cout << le.what() << endl;
 		}
 		friend1 = "";
 		friend2 = "";
@@ -160,19 +184,15 @@ int main(int argc, char *argv[])
 		string s2 = edges[i];
 		initialAddFriends(userList, s2);
 	}
-	
-	try {
-		friendCommands.open(argv[2]);
-	
-		if(friendCommands.is_open()) {
-			addFriendConnections(userList, friendCommands);
-		} else {
-			cout << "Cannot open the command file" << endl;
-		}
-	} catch(logic_error le) {
-		cout << le.what() << endl;
-	}
-	
+		
+	friendCommands.open(argv[2]);
+
+	if(friendCommands.is_open()) {
+		addFriendConnections(userList, friendCommands);
+	} else {
+		cout << "Cannot open the command file" << endl;
+	} 
+		
 	outputFile.open(argv[3]);
 	
 	GMLWriter::write(userList, outputFile);
