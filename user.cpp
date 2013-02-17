@@ -51,6 +51,14 @@ int User::getId() {
 void User::setId(int id) {
 	id_ = id;
 };
+	
+void User::addFriend(int id) {
+	friends_->push_back(id);
+};
+
+void User::removeFriend(int id) {
+	friends_->remove(id);
+}
 
 MyList<int>* User::friends() {
 	return friends_;

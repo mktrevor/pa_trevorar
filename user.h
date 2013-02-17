@@ -31,6 +31,9 @@ class User {
 	int getId();
 	void setId(int id);
 	
+	void addFriend(int id);
+	void removeFriend(int id);
+	
 	MyList<int>* friends();
 };
 
