@@ -3,10 +3,12 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <stdexcept>
 #include "user.h"
 #include "mylist.h"
 #include "gmlreader.h"
 #include "gmlwriter.h"
+
 // Add appropriate headers here
 
 void addUserData(User* user, string s1) {
@@ -91,7 +93,7 @@ void addFriendConnections(MyList<User*> &userList, ifstream &inputFile) {
 				}
 			}
 		}
-		if(action == 'r') {
+		else if(action == 'r') {
 			for(int i = 0; i < userList.size(); i++) {
 				if(userList.at(i)->getName() == friend1) {
 					for(int j = 0; j < userList.size(); j++) {
@@ -102,7 +104,9 @@ void addFriendConnections(MyList<User*> &userList, ifstream &inputFile) {
 					}
 				}
 			}
-		}	
+		}	else {
+			throw logic_error("Missing add/remove command from this line.");
+		}
 		friend1 = "";
 		friend2 = "";
 		firstName1 = "";
@@ -157,13 +161,18 @@ int main(int argc, char *argv[])
 		initialAddFriends(userList, s2);
 	}
 	
-	friendCommands.open(argv[2]);
+	try {
+		friendCommands.open(argv[2]);
 	
-	if(friendCommands.is_open()) {
-		addFriendConnections(userList, friendCommands);
-	} else {
-		cout << "Cannot open the command file" << endl;
+		if(friendCommands.is_open()) {
+			addFriendConnections(userList, friendCommands);
+		} else {
+			cout << "Cannot open the command file" << endl;
+		}
+	} catch(logic_error le) {
+		cout << le.what() << endl;
 	}
+	
 	outputFile.open(argv[3]);
 	
 	GMLWriter::write(userList, outputFile);
