@@ -121,6 +121,15 @@ int main(int argc, char *argv[])
     return 1;
   }
   
+  ifstream inputGML;
+  inputGML.open(argv[1]);
+  if(!inputGML.is_open()) {
+  	cout << "Cannot open GML input file." << endl;
+  	return 1;
+  } else {
+  	inputGML.close();
+  }
+  
   MyList<User*> userList;
 
 	vector<string> nodes;
