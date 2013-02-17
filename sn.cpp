@@ -9,12 +9,17 @@
 #include "gmlwriter.h"
 // Add appropriate headers here
 
-void addUserData(User* user, stringstream &ss) {
+void addUserData(User* user, string s1) {
+	
 	string datatype, name, newString;
 	int value = 0;
-	ss >> datatype;
+	
+	stringstream ss;	
+	ss << s1;
 	
 	for(int i = 0; i < 4; i++) {
+		ss >> datatype;
+		
 		if(datatype == "id") {
 			ss >> value;
 			getline(ss, newString, '\n');
@@ -39,11 +44,27 @@ void addUserData(User* user, stringstream &ss) {
 	
 		ss << newString;
 		newString = "";
-		ss >> datatype;
 	}
 }
 
-void addFriendConnections(MyList<User*> userList, ifstream &inputFile) {
+void initialAddFriends(MyList<User*> &userList, string s2) {
+	stringstream ss;
+	int id1, id2;
+	string command1, command2;
+	ss << s2;
+	
+	ss >> command1 >> id1 >> command2 >> id2;
+	
+	for(int i = 0; i < userList.size(); i++) {
+		if(userList.at(i)->getId() == id1) {
+			userList.at(i)->addFriend(id2);
+		}
+	}
+}
+	
+	
+
+void addFriendConnections(MyList<User*> &userList, ifstream &inputFile) {
 	string firstName1, lastName1, firstName2, lastName2;
 	string friend1, friend2;
 	
@@ -61,13 +82,33 @@ void addFriendConnections(MyList<User*> userList, ifstream &inputFile) {
 		if(action == 'a') {
 			for(int i = 0; i < userList.size(); i++) {
 				if(userList.at(i)->getName() == friend1) {
-					
-					
+					for(int j = 0; j < userList.size(); j++) {
+						if(userList.at(j)->getName() == friend2) {
+							userList.at(i)->addFriend(userList.at(j)->getId());
+							userList.at(j)->addFriend(userList.at(i)->getId());
+						}
+					}
 				}
 			}
 		}
-	
-		cout << action << friend1 << friend2 << endl;
+		if(action == 'r') {
+			for(int i = 0; i < userList.size(); i++) {
+				if(userList.at(i)->getName() == friend1) {
+					for(int j = 0; j < userList.size(); j++) {
+						if(userList.at(j)->getName() == friend2) {
+							userList.at(i)->removeFriend(userList.at(j)->getId());
+							userList.at(j)->removeFriend(userList.at(i)->getId());
+						}
+					}
+				}
+			}
+		}	
+		friend1 = "";
+		friend2 = "";
+		firstName1 = "";
+		firstName2 = "";
+		lastName1 = "";
+		lastName2 = "";
 	}
 }
 
@@ -93,23 +134,19 @@ int main(int argc, char *argv[])
 	
 	for(int i = 0; i < nodes.size(); i++) {
 	
+		string s1 = nodes[i];
+		
 		User* newUser = new User();
-	
-		string s = nodes[i];
 		
-		stringstream ss;
-		
-		ss << s;
-		
-		addUserData(newUser, ss);
+		addUserData(newUser, s1);
 		
 		userList.push_back(newUser);
 	}
 	
-	/*userList.at(0)->friends()->push_back(1);
-	userList.at(1)->friends()->push_back(0);
-	userList.at(0)->friends()->push_back(2);
-	userList.at(2)->friends()->push_back(0);*/
+	for(int i = 0; i < edges.size(); i++) {
+		string s2 = edges[i];
+		initialAddFriends(userList, s2);
+	}
 	
 	friendCommands.open(argv[2]);
 	
@@ -118,34 +155,6 @@ int main(int argc, char *argv[])
 	outputFile.open(argv[3]);
 	
 	GMLWriter::write(userList, outputFile);
-	
-
-	
-	//The follow lines are for testing purposes.
-	
-	/*for(int i = 0; i < userList.size(); i++) {
-		cout << userList.at(i)->getId() << endl;
-	}
-	
-	for(int i = 0; i < userList.size(); i++) {
-		cout << userList.at(i)->getName() << endl;
-	}
-	
-	for(int i = 0; i < userList.size(); i++) {
-		cout << userList.at(i)->getAge() << endl;
-	}
-	
-	for(int i = 0; i < userList.size(); i++) {
-		cout << userList.at(i)->getZip() << endl;
-	}
-	
-	for(int i = 0; i < nodes.size(); i++) {
-		cout << nodes[i] << endl;
-	}
-	
-	for(int i = 0; i < edges.size(); i++) {
-		cout << edges[i] << endl;
-	}*/
 	
 	friendCommands.close();
 	outputFile.close();
