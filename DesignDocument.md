@@ -1,7 +1,7 @@
 # Design Document for PA1 - Trevor Reed
 
 ## Purpose/Overview
-> This piece of software will emulate a basic social networking platform. It will do this by storing information and ID's for multiple users and keeping track of the connections between different users. Also, it will be able to read GML files to create new users and create GML files from the user information.
+> This piece of software will emulate a basic social networking platform. It will do this by storing information and ID's for multiple users and keeping track of the connections between different users. Also, it will be able to read GML files to create new users, add/remove friend connections from a command file, and create GML files from the user information.
 
 
 ## Requirements
@@ -17,16 +17,21 @@
 > + Its purpose is to store the information of a single user, include name, zip code, age, id number, and friend list.
 > + Its member data include three integers to store a user's zip code, age, and id number. It also has a string to hold the user's name and an integer list (MyList<int>) to store the user's friends' id numbers.
 > + It has constructors and a destructor, getters and setters for each of the user's attributes (name, id, zip, age), and a function friend() which returns a pointer to the user's friend list.
+> + It also has addFriend() and removeFriend() methods to add/remove id numbers from a user's friend list.
 
 > Third, there is a GMLWriter class which has only a single method called write(). This method takes in a list of user pointers and an output file and converts the user information to a gml file.
 
 ## Global Data/Functions
-> I have only one global function in the sn.cpp file. It's called addUserData, and it takes in a pointer to a user object and a stringstream which it uses to populate the user object with information from an outside file.
+> I have three different global functions.
+> + The first global function is called addUserData, and it takes in a pointer to a user object and a string of user information which it uses to populate the user object with information from an outside file.
+> + The second is called initialAddFriends, and it takes in a list of users and a string of edge information which it uses to add the appropriate initial friend connections within the list of users.
+> + The third global function is called addFriendConnections. It takes in a list of users and an input file. It then parses and processes the information in the input file in order to correctly add and/or remove friend connections within the user list.
 
 > My global data include:
 > + MyList<User*> userList - This list holds pointers to all of the users from the input gml file.
 > + vector<string> nodes and vector<string> edges - These vectors hold the node and edge information in strings.
 > + ofstream outputFile - This is the file that the GMLWriter will output the new gml file into.
+> + ifstream friendCommands - This file contains all of the friend connections that need to be added/removed within the user class.
 
 ## High-level Architecture
 > My program takes an input gml file and uses it to fill in a list of user objects. Each user object has its own list of friend id numbers as well. Therefore, I can use the methods of the MyList class to make necessary changes to the users or their friend lists, and the methods of the User class can be used to change user information.
@@ -38,13 +43,14 @@
 ## User Interface
 > Users will interact with this software completely through the terminal and through input gml and txt files. The input gml file will include information on all of the social network users, so the user will be able to edit this information before the program is run. Also, I could add options for the user to change information or add new users after the program has been started. The user will also be able to input a list of the friend connections they want to add or remove, through an input txt file, and then the program will implement the connections itself.
 
->The software won't have a GUI, but it should be simple to run using only the terminal and correct input/output files.
+>The software won't have a GUI, but it should be simple to run using only the terminal and correct input/output files. I'll have to make sure to send out appropriate messages when errors arise so that the user knows what is going wrong.
 
 ##Test Cases
 > I will test my system by creating multiple different test gml files and test txt files. These files will include user data and connections in multiple different orders and numbers to make sure my program can handle the input files regardless of their size and order of information.
 > + I'll test the system by running it multiple times with the different gml and txt files and making sure it runs correctly with all of them.
 > + Some potential problem cases are: Incomplete gml files (users without all of the information needed), multiple users with the same names/ages/zip codes, and txt files that try to make connections between non-existent users.
 > + To test these, I'll make input gml files that are incomplete and make sure the user objects are instantiated correctly. Also, I'll make gml files that have users with the same information to see how my program deals with them. Then, I'll also create input txt files that try to create connections between users that exist and don't exist and see how it handles it.
+> + Lastly, I'll try running the program with invalid input files to see if it catches the errors, and I'll run it with files that include names that don't match any users to make sure that the exception handling is being done corectly.
 
 > + For my addUserData() function, I'll try to test it using incomplete gml files (users missing a name/age or other information). I would expect it to create the users normally but simply leave some fields blank. 
 > + For my GMLWriter::write() function, I'll try running it with many different lists of users to make sure it can handle different sizes and orders of information. I expect it to work the same and organize the data itself. Also, I can run it with incomplete users, in which case I would expect it to fill the output gml file normally but with a few blank fields for the missing information.
