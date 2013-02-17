@@ -159,8 +159,11 @@ int main(int argc, char *argv[])
 	
 	friendCommands.open(argv[2]);
 	
-	addFriendConnections(userList, friendCommands);
-	
+	if(friendCommands.is_open()) {
+		addFriendConnections(userList, friendCommands);
+	} else {
+		cout << "Cannot open the command file" << endl;
+	}
 	outputFile.open(argv[3]);
 	
 	GMLWriter::write(userList, outputFile);
