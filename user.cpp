@@ -52,11 +52,11 @@ void User::setId(int id) {
 	id_ = id;
 };
 	
-void User::addFriend(int id) {
+void User::addFriend(int id) { //Adds an id number to a user's friendlist.
 	friends_->push_back(id);
 };
 
-void User::removeFriend(int id) {
+void User::removeFriend(int id) { //Removes an id number from a user's friendlist.
 	friends_->remove(id);
 }
 
