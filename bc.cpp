@@ -12,7 +12,7 @@
 // Add appropriate headers here
 
 //Adds the user data from a string into a user object.
-void addUserData(User* user, string s1) {
+void addUserData(BCUser* user, string s1) {
 	//Declaration of variables to hold values temporarily until they're added to the object.
 	string datatype, name, newString;
 	int value = 0;
@@ -51,7 +51,7 @@ void addUserData(User* user, string s1) {
 }
 
 //This function adds the initial friend connections to the list of users using the vector that stores edge information.
-void initialAddFriends(MyList<User*> &userList, string s2) {
+void initialAddFriends(MyList<BCUser*> &userList, string s2) {
 	//Initial declaration of variables.
 	stringstream ss;
 	int id1, id2;
@@ -69,7 +69,7 @@ void initialAddFriends(MyList<User*> &userList, string s2) {
 }
 	
 //This function uses the information from the commands document to add and remove friend connections.
-void addFriendConnections(MyList<User*> &userList, ifstream &inputFile) {
+void addFriendConnections(MyList<BCUser*> &userList, ifstream &inputFile) {
 	//Declaring variables to store strings temporarily.
 	string firstName1, lastName1, firstName2, lastName2;
 	string friend1, friend2;
@@ -172,7 +172,7 @@ int main(int argc, char *argv[])
   }
   
   //Initial declaration of a list of users.
-  MyList<User*> userList;
+  MyList<BCUser*> userList;
 
 	//These vectors will hold the node and edge information.
 	vector<string> nodes;
@@ -190,7 +190,7 @@ int main(int argc, char *argv[])
 	
 		string s1 = nodes[i];
 		
-		User* newUser = new User();
+		BCUser* newUser = new BCUser();
 		
 		//This function transfers data from the string into the user object.
 		addUserData(newUser, s1);

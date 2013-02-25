@@ -1,10 +1,11 @@
 #ifndef BCUSER_H
 #define BCUSER_H
-
 #include "mylist.h"
 #include "user.h"
-#include <iostream>
 #include <string>
+#include <iostream>
+
+using namespace std;
 
 class BCUser : public User {
 	public:

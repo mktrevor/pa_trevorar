@@ -21,7 +21,7 @@ User::User(string name, int age, int zip, int id) {
 };
 
 User::~User() {
-	delete friends_;
+	clearFriends();
 };
 
 string User::getName() {
@@ -58,6 +58,10 @@ void User::addFriend(int id) { //Adds an id number to a user's friendlist.
 
 void User::removeFriend(int id) { //Removes an id number from a user's friendlist.
 	friends_->remove(id);
+}
+
+void User::clearFriends() {
+	delete friends_;
 }
 
 MyList<int>* User::friends() {

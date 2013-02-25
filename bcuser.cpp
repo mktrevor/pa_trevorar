@@ -1,23 +1,11 @@
-#ifndef BCUSER_H
-#define BCUSER_H
+#include "bcuser.h"
+#include <string>
+#include <iostream>
 
-#include "user.h"
+using namespace std;
 
-BCUser::BCUser() {
-	name_ = "";
-	age_ = 0;
-	zip_ = 0;
-	id_ = 0;
-	friends_ = new MyList<int>;
-	
-	dist = -1;
-	numsp = 0;
-	delta = 0;
-	bc = 0;
-}
+BCUser::BCUser(): User("", 0, 0, 0), dist(-1), numsp(0), delta(0.0), bc(0.0) {};
 
 BCUser::~BCUser() {
-	delete friends_;
-}
-
-#endif
+	User::clearFriends();
+};
