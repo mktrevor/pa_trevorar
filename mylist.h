@@ -14,7 +14,9 @@ template <typename T> class MyList{
 		int size();
 		void push_back(T item);
 		T& at(int loc);
+		T& operator[](int loc);
 		bool remove(T val);
+		void clear();
 	
 	private:
 		T* data_;
@@ -29,7 +31,7 @@ template <typename T> MyList<T>::MyList() {
 };
 
 template <typename T> MyList<T>::~MyList() {
-	delete [] data_;
+	clear();
 }
 
 template <typename T> int MyList<T>::size() { //Returns the size of the list.
@@ -70,6 +72,10 @@ template <typename T> T& MyList<T>::at(int loc) { //Returns the value at a certa
 	return data_[loc];
 }
 
+template <typename T> T& MyList<T>::operator[](int loc) {
+	return at(loc);
+}
+
 template <typename T> bool MyList<T>::remove(T val) { //Removes the first instance of a value in the list.
 	for(int i = 0; i < size_; i++) {
 		if(data_[i] == val) {
@@ -81,6 +87,10 @@ template <typename T> bool MyList<T>::remove(T val) { //Removes the first instan
 		}
 	}
 	return 0;
+}
+
+template <typename T> void MyList<T>::clear() {
+	delete [] data_;
 }
 
 #endif

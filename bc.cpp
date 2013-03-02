@@ -9,6 +9,7 @@
 #include "mylist.h"
 #include "gmlreader.h"
 #include "gmlwriter.h"
+#include "bcalg.h"
 // Add appropriate headers here
 
 //Adds the user data from a string into a user object.

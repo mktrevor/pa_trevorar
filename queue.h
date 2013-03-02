@@ -26,7 +26,7 @@ Queue<T>::~Queue() {
 
 template <typename T>
 int Queue<T>::size() const {
-	LList<T>::size();
+	return LList<T>::size();
 }
 
 template <typename T>
@@ -45,17 +45,17 @@ void Queue<T>::pop_front() {
 
 template <typename T>
 T& Queue<T>::front() {
-	LList<T>::at(0);
+	return LList<T>::at(0);
 }
 
 template <typename T>
 T& Queue<T>::back() {
-	LList<T>::at(size() - 1);
+	return LList<T>::at(size() - 1);
 }
 
 template <typename T>
 bool Queue<T>::empty() const {
-	LList<T>::empty();
+	return LList<T>::empty();
 }
 
 #endif

@@ -12,15 +12,18 @@ sn: gmlwriter.o gmlreader.o lex.yy.o gml.tab.o user.o sn.o
 	@echo "Compiling and linking sn"
 	$(CC) $(CFLAGS) gmlwriter.o gmlreader.o lex.yy.o gml.tab.o user.o sn.o -o sn
 
-bc: gmlwriter.o gmlreader.o lex.yy.o gml.tab.o user.o bcuser.o bc.o
+bc: gmlwriter.o gmlreader.o lex.yy.o gml.tab.o user.o bcuser.o bcalg.o bc.o
 	@echo "Compiling and linking bc"
-	$(CC) $(CFLAGS) gmlwriter.o gmlreader.o lex.yy.o gml.tab.o user.o bcuser.o bc.o -o bc
+	$(CC) $(CFLAGS) gmlwriter.o gmlreader.o lex.yy.o gml.tab.o user.o bcuser.o bcalg.o bc.o -o bc
 
 user.o: user.h user.cpp
 	$(CC) $(CFLAGS) -c user.cpp
 
 bcuser.o: bcuser.h bcuser.cpp
 	$(CC) $(CFLAGS) -c bcuser.cpp
+	
+bcalg.o: bcalg.h bcalg.cpp
+	$(CC) $(CFLAGS) -c bcalg.cpp
 
 gmlreader.o: gmlreader.h gmlreader.cpp
 	$(CC) $(CFLAGS) -c gmlreader.cpp
@@ -43,7 +46,7 @@ gml.tab.c: gml.y
 sn.o: user.h mylist.h sn.cpp
 	$(CC) $(CFLAGS) -c sn.cpp
 
-bc.o: user.h mylist.h bcuser.h bcuser.cpp
+bc.o: user.h mylist.h bcuser.h bcuser.cpp bc.cpp
 	$(CC) $(CFLAGS) -c bc.cpp
 
 clean:

@@ -25,7 +25,7 @@ class LList {
   T& at(int loc) const;
   T& operator[](int loc) const;
   bool remove(const T& val);
-  void insert(int loc, int val);
+  void insert(int loc, T val);
   void clear();
  private:
   Item<T> *getNodeAt(int loc) const;
@@ -161,7 +161,7 @@ T& LList<T>::operator[](int loc) const
 }
 
 template <typename T>
-void LList<T>::insert(int loc, int val){
+void LList<T>::insert(int loc, T val){
 
 	if(loc > size_) {
 		cout << "Error: Trying to insert outside of list." << endl;
