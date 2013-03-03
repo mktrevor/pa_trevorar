@@ -35,6 +35,8 @@ void GMLWriter::write(MyList<User*>* userList, ofstream &output) {
 	output << "]";
 };
 
+
+//If a BCUser list is passed in instead of a User list, the write() function will write out a list of all the user ID's and BC scores
 void GMLWriter::write(MyList<BCUser*>* userList, MyList<double>* BCList, ofstream &output) {
 	for(int i = 0; i < userList->size(); i++) {
 		output << userList->at(i)->getId() << " " << BCList->at(i) << endl;

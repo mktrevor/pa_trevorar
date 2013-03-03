@@ -9,14 +9,14 @@ using namespace std;
 
 MyList<double>* BCAlg::computeBC(MyList<BCUser*>* userList) {
 	
-	MyList<double>* BCList = new MyList<double>;
+	MyList<double>* BCList = new MyList<double>; //Initial declaration of a list of BC scores
 
-	for(int i = 0; i < userList->size(); i++) {
+	for(int i = 0; i < userList->size(); i++) { //Setting all BC scores to 0
 		userList->at(i)->bc = 0;
 	}
 	
-	for(int i = 0; i < userList->size(); i++) {
-		for(int j = 0; j < userList->size(); j++) {
+	for(int i = 0; i < userList->size(); i++) { //This loop will run through for each user in the userList
+		for(int j = 0; j < userList->size(); j++) { //First, clear out all the variables for each user
 			userList->at(j)->num_sp = 0;
 			userList->at(j)->dist = -1;
 			userList->at(j)->delta = 0.0;
@@ -27,7 +27,8 @@ MyList<double>* BCAlg::computeBC(MyList<BCUser*>* userList) {
 		userList->at(i)->num_sp = 1;
 		userList->at(i)->dist = 0;
 	
-		Stack<BCUser*> userStack;
+		//Initial declaration of a stack and queue to hold users	
+		Stack<BCUser*> userStack; 
 		Queue<BCUser*> userQueue;
 		
 		userQueue.push_back(userList->at(i));
@@ -42,7 +43,7 @@ MyList<double>* BCAlg::computeBC(MyList<BCUser*>* userList) {
 				for(int j = 0; j < userList->size(); j++) {
 					BCUser* buddy = userList->at(j);
 					
-					if(buddyID == buddy->getId()) {
+					if(buddyID == buddy->getId()) { //Finding the user with a certain ID number.
 						if(buddy->dist == -1) {
 							userQueue.push_back(buddy);
 							buddy->dist = v->dist + 1;
@@ -56,6 +57,7 @@ MyList<double>* BCAlg::computeBC(MyList<BCUser*>* userList) {
 			}
 		}
 		
+		//This loop calculates the bc score for each user on the stack
 		while(!userStack.empty()) {
 			BCUser* user = userStack.front();
 			userStack.pop_front();
@@ -73,6 +75,7 @@ MyList<double>* BCAlg::computeBC(MyList<BCUser*>* userList) {
 		}
 	}	
 	
+	//Populating the BC score list
 	for(int i = 0; i < userList->size(); i++) {
 		BCList->push_back(userList->at(i)->bc);
 	}
@@ -80,6 +83,7 @@ MyList<double>* BCAlg::computeBC(MyList<BCUser*>* userList) {
 	double min = BCList->at(0);
 	double max = BCList->at(0);
 	
+	//Finding the maximum and minimum BC scores
 	for(int i = 1; i < BCList->size(); i++) {
 		if(BCList->at(i) > max) {
 			max = BCList->at(i);
@@ -89,6 +93,7 @@ MyList<double>* BCAlg::computeBC(MyList<BCUser*>* userList) {
 		}
 	}
 	
+	//Normalizing each score to be between 0 and 1
 	for(int i = 0; i < BCList->size(); i++) {
 		BCList->at(i) = (BCList->at(i) - min)/(max - min);
 	}

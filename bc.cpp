@@ -67,6 +67,7 @@ void initialAddFriends(MyList<BCUser*>* userList, string s2) {
 	for(int i = 0; i < userList->size(); i++) {
 		if(userList->at(i)->getId() == id1) {
 			userList->at(i)->addFriend(id2);
+			
 		}
 	}
 }
@@ -125,12 +126,6 @@ int main(int argc, char *argv[])
 	}
 
 	BCList = BCAlg::computeBC(userList);
-	
-	cout << userList << endl;
-	
-	for(int i = 0; i < BCList->size(); i++) {
-		cout << BCList->at(i) << endl;
-	}
 			
 	outputFile.open(argv[2]);
 	//Writing a new GML file using the information from the list of users.
