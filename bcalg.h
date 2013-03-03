@@ -7,7 +7,8 @@
 using namespace std;
 
 class BCAlg {
-	MyList<double>* computeBC(MyList<BCUser*> &userList);
+	public:
+		static MyList<double>* computeBC(MyList<BCUser*> &userList);
 };
 
 #endif

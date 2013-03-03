@@ -61,7 +61,7 @@ void User::removeFriend(int id) { //Removes an id number from a user's friendlis
 }
 
 void User::clearFriends() {
-	delete friends_;
+	delete [] friends_;
 }
 
 MyList<int>* User::friends() {

@@ -5,12 +5,14 @@
 #include <fstream>
 #include <stdexcept>
 #include "bcuser.h"
-#include "user.h"
 #include "mylist.h"
 #include "gmlreader.h"
 #include "gmlwriter.h"
 #include "bcalg.h"
 // Add appropriate headers here
+
+
+using namespace std;
 
 //Adds the user data from a string into a user object.
 void addUserData(BCUser* user, string s1) {
@@ -153,12 +155,10 @@ void addFriendConnections(MyList<BCUser*> &userList, ifstream &inputFile) {
 	}
 }
 
-using namespace std;
-
 int main(int argc, char *argv[])
 {
-  if(argc < 4){
-    cerr << "Please provide the input GML file, command file, and output file" << endl;
+  if(argc < 3){
+    cerr << "Please provide the input GML file and output file" << endl;
     return 1;
   }
   
@@ -172,8 +172,9 @@ int main(int argc, char *argv[])
   	inputGML.close();
   }
   
-  //Initial declaration of a list of users.
+  //Initial declaration of a list of users and a list of BC scores.
   MyList<BCUser*> userList;
+	MyList<double>* BCList;
 
 	//These vectors will hold the node and edge information.
 	vector<string> nodes;
@@ -182,9 +183,8 @@ int main(int argc, char *argv[])
 	//Transferring information from input GML file into the nodes and edges vectors.
 	GMLReader::read(argv[1], nodes, edges);
 	
-	//Declaring input and output files.
+	//Declaring output file.
 	ofstream outputFile;
-	ifstream friendCommands;
 	
 	//This loop goes through each line of the nodes vector and populates a user object.
 	for(int i = 0; i < nodes.size(); i++) {
@@ -207,22 +207,20 @@ int main(int argc, char *argv[])
 		//Adding friend connections from the input GML file.
 		initialAddFriends(userList, s2);
 	}
-		
-	friendCommands.open(argv[2]);
-	//Checking to see if command file is valid.
-	if(friendCommands.is_open()) {
-		//Adding/removing all friend connections from the command file.
-		addFriendConnections(userList, friendCommands);
-	} else {
-		cout << "Cannot open the command file" << endl;
-	} 
-		
+
+	BCList = BCAlg::computeBC(userList);
+	
+	cout << "Got through computeBC." << endl;
+	
+	for(int i = 0; i < BCList->size(); i++) {
+		cout << BCList->at(i) << endl;
+	}
+			
 	outputFile.open(argv[3]);
 	//Writing a new GML file using the information from the list of users.
 	GMLWriter::write(userList, outputFile);
 	
 	//Closing out input and output files.
-	friendCommands.close();
 	outputFile.close();
 	
   return 0;

@@ -14,7 +14,7 @@ class BCUser : public User {
 		
 		int dist;							// distance to current source vertex
 		int num_sp;						// number of shortest paths
-		MyList<int> preds;		// list of predecessors
+		MyList<int>* preds;		// list of predecessors
 		double delta;					// partial BC score
 		double bc;						// total BC score
 };
