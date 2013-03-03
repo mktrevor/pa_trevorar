@@ -7,36 +7,30 @@
 
 using namespace std;
 
-MyList<double>* BCAlg::computeBC(MyList<BCUser*> &userList) {
-	
-	cout << "YEAH";
+MyList<double>* BCAlg::computeBC(MyList<BCUser*>* userList) {
 	
 	MyList<double>* BCList = new MyList<double>;
-	
-				cout << "1";
 
-	for(int i = 0; i < userList.size(); i++) {
-		userList[i]->bc = 0;
+	for(int i = 0; i < userList->size(); i++) {
+		userList->at(i)->bc = 0;
 	}
 	
-				cout << "2";
-	
-	for(int i = 0; i < userList.size(); i++) {
-		for(int j = 0; j < userList.size(); j++) {
-			userList[j]->num_sp = 0;
-			userList[j]->dist = -1;
-			userList[j]->delta = 0.0;
-			userList[j]->preds->clear();
-			userList[j]->preds = new MyList<int>;
+	for(int i = 0; i < userList->size(); i++) {
+		for(int j = 0; j < userList->size(); j++) {
+			userList->at(j)->num_sp = 0;
+			userList->at(j)->dist = -1;
+			userList->at(j)->delta = 0.0;
+			userList->at(j)->preds->clear();
+			userList->at(j)->preds = new MyList<int>;
 		}
 		
-		userList[i]->num_sp = 1;
-		userList[i]->dist = 0;
+		userList->at(i)->num_sp = 1;
+		userList->at(i)->dist = 0;
 	
 		Stack<BCUser*> userStack;
 		Queue<BCUser*> userQueue;
 		
-		userQueue.push_back(userList[i]);
+		userQueue.push_back(userList->at(i));
 		
 		while(!userQueue.empty()) {
 			BCUser* v = userQueue.front(); //v is the starting vertex
@@ -45,8 +39,8 @@ MyList<double>* BCAlg::computeBC(MyList<BCUser*> &userList) {
 			
 			for(int i = 0; i < v->friends()->size(); i++) {
 				int buddyID = v->friends()->at(i); //buddy will be set to equal each one of v's friends in the course of this loop
-				for(int j = 0; j < userList.size(); j++) {
-					BCUser* buddy = userList[j];
+				for(int j = 0; j < userList->size(); j++) {
+					BCUser* buddy = userList->at(j);
 					
 					if(buddyID == buddy->getId()) {
 						if(buddy->dist == -1) {
@@ -62,15 +56,13 @@ MyList<double>* BCAlg::computeBC(MyList<BCUser*> &userList) {
 			}
 		}
 		
-				cout << "3";
-		
 		while(!userStack.empty()) {
 			BCUser* user = userStack.front();
 			userStack.pop_front();
 			for(int i = 0; i < user->preds->size(); i++) {
 				int buddyID = user->preds->at(i);
-				for(int j = 0; j < userList.size(); j++) {
-					BCUser* buddy = userList[j];
+				for(int j = 0; j < userList->size(); j++) {
+					BCUser* buddy = userList->at(j);
 					if(buddyID == buddy->getId()) {
 						buddy->delta = buddy->delta + (buddy->num_sp/user->num_sp)*(1+user->delta);
 						break;
@@ -81,13 +73,25 @@ MyList<double>* BCAlg::computeBC(MyList<BCUser*> &userList) {
 		}
 	}	
 	
-			cout << "4";
-	
-	for(int i = 0; i < userList.size(); i++) {
-		BCList->push_back(userList[i]->bc);
+	for(int i = 0; i < userList->size(); i++) {
+		BCList->push_back(userList->at(i)->bc);
 	}
 	
-			cout << "5";
+	double min = BCList->at(0);
+	double max = BCList->at(0);
+	
+	for(int i = 1; i < BCList->size(); i++) {
+		if(BCList->at(i) > max) {
+			max = BCList->at(i);
+		}
+		if(BCList->at(i) < min) {
+			min = BCList->at(i);
+		}
+	}
+	
+	for(int i = 0; i < BCList->size(); i++) {
+		BCList->at(i) = (BCList->at(i) - min)/(max - min);
+	}
 	
 	return BCList;	
 }

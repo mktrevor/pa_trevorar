@@ -54,7 +54,7 @@ void addUserData(BCUser* user, string s1) {
 }
 
 //This function adds the initial friend connections to the list of users using the vector that stores edge information.
-void initialAddFriends(MyList<BCUser*> &userList, string s2) {
+void initialAddFriends(MyList<BCUser*>* userList, string s2) {
 	//Initial declaration of variables.
 	stringstream ss;
 	int id1, id2;
@@ -64,97 +64,13 @@ void initialAddFriends(MyList<BCUser*> &userList, string s2) {
 	ss >> command1 >> id1 >> command2 >> id2;
 	
 	//Searching the list of users for a certain id, and adding another id to the first's friend list.
-	for(int i = 0; i < userList.size(); i++) {
-		if(userList.at(i)->getId() == id1) {
-			userList.at(i)->addFriend(id2);
+	for(int i = 0; i < userList->size(); i++) {
+		if(userList->at(i)->getId() == id1) {
+			userList->at(i)->addFriend(id2);
 		}
 	}
 }
 	
-//This function uses the information from the commands document to add and remove friend connections.
-void addFriendConnections(MyList<BCUser*> &userList, ifstream &inputFile) {
-	//Declaring variables to store strings temporarily.
-	string firstName1, lastName1, firstName2, lastName2;
-	string friend1, friend2;
-	
-	//These checkers will increment if a user's name is found so that an exception can be thrown if the name is never found.
-	int checker1 = 0, checker2 = 0;
-	//'a' for add or 'r' for remove
-	char action;
-	
-	//While the inputFile is okay for input/output.
-	while(inputFile.good()) {
-		//Extracting data from the commands document into variables.
-		inputFile >> action >> firstName1 >> lastName1 >> firstName2 >> lastName2;
-		//Creating full name variables.
-		friend1 = firstName1 + " " + lastName1;
-		friend2 = firstName2 + " " + lastName2;
-		//Removing the quotation marks.
-		friend1 = friend1.substr(1, friend1.length() - 2);
-		friend2 = friend2.substr(1, friend2.length() - 2);
-		
-		//These loops search through the user list to find the two different users and add them to each others' friend lists.
-		try {
-			if(action == 'a') {
-				for(int i = 0; i < userList.size(); i++) {
-					if(userList.at(i)->getName() == friend1) {
-						checker1++;
-						for(int j = 0; j < userList.size(); j++) {
-							if(userList.at(j)->getName() == friend2) {
-								checker2++;
-								userList.at(i)->addFriend(userList.at(j)->getId());
-								userList.at(j)->addFriend(userList.at(i)->getId());
-							}
-						}
-					}
-				}
-			}
-			//If the action is 'r', though, the users are removed from each others' friend lists.
-			else if(action == 'r') {
-				for(int i = 0; i < userList.size(); i++) {
-					if(userList.at(i)->getName() == friend1) {
-						checker1++;
-						for(int j = 0; j < userList.size(); j++) {
-							if(userList.at(j)->getName() == friend2) {
-								checker2++;
-								userList.at(i)->removeFriend(userList.at(j)->getId());
-								userList.at(j)->removeFriend(userList.at(i)->getId());
-							}
-						}
-					}
-				}
-			}	else {
-				throw exception();
-			}
-		} catch(exception e) {
-			cout << "Missing add/remove command on this line." << endl;
-		}
-		
-		//These statements check to see if a user was found with the specified name.
-		try {
-			if(checker1 == 0) {
-				throw logic_error("User does not exist");
-		}
-		} catch(logic_error le) {
-			cout << le.what() << endl;
-		}
-		try {
-			if(checker2 == 0) {
-			throw logic_error("User does not exist");
-			}
-		} catch(logic_error le) {
-			cout << le.what() << endl;
-		}
-		//Resetting the variables for the next loop through.
-		friend1 = "";
-		friend2 = "";
-		firstName1 = "";
-		firstName2 = "";
-		lastName1 = "";
-		lastName2 = "";
-	}
-}
-
 int main(int argc, char *argv[])
 {
   if(argc < 3){
@@ -173,7 +89,7 @@ int main(int argc, char *argv[])
   }
   
   //Initial declaration of a list of users and a list of BC scores.
-  MyList<BCUser*> userList;
+  MyList<BCUser*>* userList = new MyList<BCUser*>;
 	MyList<double>* BCList;
 
 	//These vectors will hold the node and edge information.
@@ -197,7 +113,7 @@ int main(int argc, char *argv[])
 		addUserData(newUser, s1);
 		
 		//Adding the new user to the end of the list of users.
-		userList.push_back(newUser);
+		userList->push_back(newUser);
 	}
 	
 	//This loop runs through each line of the edges vector and adds the info to the appropriate user object.
@@ -210,13 +126,13 @@ int main(int argc, char *argv[])
 
 	BCList = BCAlg::computeBC(userList);
 	
-	cout << "Got through computeBC." << endl;
+	cout << userList << endl;
 	
 	for(int i = 0; i < BCList->size(); i++) {
 		cout << BCList->at(i) << endl;
 	}
 			
-	outputFile.open(argv[3]);
+	outputFile.open(argv[2]);
 	//Writing a new GML file using the information from the list of users.
 	GMLWriter::write(userList, outputFile);
 	
