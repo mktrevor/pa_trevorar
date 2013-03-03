@@ -12,7 +12,7 @@ class GMLWriter {
 	public:		
 		static void write(MyList<User*>* userList, ofstream &output);
 		
-		static void write(MyList<BCUser*>* userList, ofstream &output);
+		static void write(MyList<BCUser*>* userList, MyList<double>* BCList, ofstream &output);
 	
 };
 

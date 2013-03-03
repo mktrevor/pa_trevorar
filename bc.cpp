@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
 			
 	outputFile.open(argv[2]);
 	//Writing a new GML file using the information from the list of users.
-	GMLWriter::write(userList, outputFile);
+	GMLWriter::write(userList, BCList, outputFile);
 	
 	//Closing out input and output files.
 	outputFile.close();

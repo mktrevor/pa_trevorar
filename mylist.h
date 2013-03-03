@@ -28,10 +28,10 @@ template <typename T> MyList<T>::MyList() {
 	size_ = 0;
 	capacity_ = 2;
 	data_ = new T[2];
-};
+}
 
 template <typename T> MyList<T>::~MyList() {
-	clear();
+	delete [] data_;
 }
 
 template <typename T> int MyList<T>::size() { //Returns the size of the list.
